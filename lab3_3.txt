@@ -1,0 +1,70 @@
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <cstring>
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	char text[256];
+	std::string path;
+	path = "D:\\Study\\TextFile1.txt"; //”казываем путь
+	std::ifstream file(path);
+	char string_1[256];
+	char string_2[256];
+	char string_3[256];
+	int N = 0;
+	while (!file.eof())
+	{
+		N++;
+		file.getline(text, 256);
+		switch (N)
+		{
+		case 1:
+			strcpy_s(string_1, text);
+			break;
+		case 2:
+			strcpy_s(string_2, text);
+			break;
+		case 3:
+			strcpy_s(string_3, text);
+			break;
+		}
+	}
+		if ((strlen(string_1) < strlen(string_2)) && (strlen(string_1) < strlen(string_3)))
+		{
+			std::cout << string_1 << std::endl;
+			if (strlen(string_2) < strlen(string_3))
+			{
+				std::cout << string_2 << std::endl;
+				std::cout << string_3 << std::endl;
+			}
+			else
+			{
+				std::cout << string_3 << std::endl;
+				std::cout << string_2 << std::endl;
+			}
+		}
+		else if ((strlen(string_2) < strlen(string_1) && (strlen(string_2) < strlen(string_3))))
+		{
+			std::cout << string_2 << std::endl;
+			if (strlen(string_1) < strlen(string_3))
+			{
+				std::cout << string_1 << std::endl;
+				std::cout << string_3 << std::endl;
+			}
+			else
+			{
+				std::cout << string_3 << std::endl;
+				std::cout << string_1 << std::endl;
+			}
+		}
+		else if ((strlen(string_3) < strlen(string_1)))
+		{
+			std::cout << string_3 << std::endl;
+		}
+		else 
+		{
+			std::cout << string_1 << std::endl;
+			std::cout << string_3;
+		}
+	}   

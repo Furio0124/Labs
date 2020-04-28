@@ -1,0 +1,14 @@
+#include <iostream>
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	char stroka[256];
+	std::cout << "¬ведите строку\n";
+	std::cin.getline(stroka,256);
+	int K = 0;
+	K = strlen(stroka)-1;
+	for (K; K >= 0; K--)
+	{
+		std::cout<<stroka[K];
+	}
+}
