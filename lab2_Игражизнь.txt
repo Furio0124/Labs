@@ -1,0 +1,112 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h> 
+using namespace std;
+
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+    int SIZEY, SIZEX;
+    cout << "Введите размер поля \n";
+    cout << "y= ";
+    cin >> SIZEY;
+    cout << "x= ";
+    cin >> SIZEX;
+   
+    int** scr = new int* [SIZEY];
+    for (int i = 0; i < SIZEY; ++i)
+        scr[i] = new int [SIZEX];
+
+    int** tmp = new int* [SIZEY];
+    for (int i = 0; i < SIZEY; ++i)
+        tmp[i] = new int [SIZEX];
+
+
+
+  
+    int x, y, z = 0;
+    for (y = 0; y < SIZEY; y++) for (x = 0; x < SIZEX; x++) tmp[x][y] = 1;
+    for (y = 0; y < SIZEY; y++) for (x = 0; x < SIZEX; x++) scr[x][y] = 1;
+    cout << "Введите клетки(для завершения ввода клеток stop=1):\n";
+    int stop=0;
+    while (stop != 1)
+    {
+        cout << "Координаты клетки:";
+        cin >> x >> y;
+        if ((x >= SIZEX) && (x < 0)) {
+
+        }
+        else {
+            if ((y >= SIZEY) && (y < 0)) {
+
+            }
+            else {
+                scr[x][y] = 0;
+                cout << "stop= ";
+                cin >> stop;
+            }
+        }
+            
+        
+    }   
+    int d, i;
+    cout << "Количество поколений: ";
+    cin >> d;
+    for (i = 1; i <= d; i++)
+    {
+        system("cls");
+        for (y = 1; y <= SIZEY - 2; y++) for (x = 1; x <= SIZEX - 2; x++) tmp[x][y] = scr[x][y];
+        for (y = 1; y <= SIZEY - 2; y++)
+        {
+            for (x = 1; x <= SIZEX - 2; x++)
+            {
+                if (tmp[x][y] == 0)
+                {
+                    if (tmp[x - 1][y - 1] == 1) z++;
+                    if (tmp[x][y - 1] == 1) z++;
+                    if (tmp[x + 1][y - 1] == 1) z++;
+                    if (tmp[x + 1][y] == 1) z++;
+                    if (tmp[x + 1][y + 1] == 1) z++;
+                    if (tmp[x][y + 1] == 1) z++;
+                    if (tmp[x - 1][y + 1] == 1) z++;
+                    if (tmp[x - 1][y] == 1) z++;
+                    if (z == 3) scr[x][y] = 1;
+                    z = 0;
+                }
+                else
+                {
+                    if (tmp[x - 1][y - 1] == 1) z++;
+                    if (tmp[x][y - 1] == 1) z++;
+                    if (tmp[x + 1][y - 1] == 1) z++;
+                    if (tmp[x + 1][y] == 1 ) z++;
+                    if (tmp[x + 1][y + 1] == 1) z++;
+                    if (tmp[x][y + 1] == 1) z++;
+                    if (tmp[x - 1][y + 1] == 1) z++;
+                    if (tmp[x - 1][y] == 1) z++;
+                    if ((z == 2) || (z == 3))
+                    {
+                        scr[x][y] = 1;
+                        z = 0;
+                    }
+                    else
+                    {
+                        scr[x][y] = 0;
+                        z = 0;
+                    }
+                }
+            }
+        }
+        for (y = 0; y < SIZEY; y++)
+        {
+            for (x = 0; x < SIZEX; x++)
+            {
+                cout << scr[x][y];
+            }
+            cout << "\n";
+        }
+        getchar();
+    }
+    system("pause");
+    return 0;
+}
