@@ -1,0 +1,107 @@
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+
+using namespace std;
+
+struct bus {
+	int number;
+	string F;
+	string I;
+	string O;
+	int marshrut;
+	int lenght;
+};
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	string b;
+	string x;
+	bus s;
+	ifstream file;
+
+	file.open("Text.txt");
+	int len(0);
+
+	if (file.is_open()) {
+		while (!file.eof()) {
+			string s;
+			getline(file, s);
+			len++;
+		}
+	}
+
+	bus* arr = new bus[len];
+	file.seekg(0, ios_base::beg);
+
+	for (size_t i = 0; i < len; i++)
+	{
+		getline(file, x);
+		istringstream iss(x);
+
+		iss >> s.number >> s.F >> s.I >> s.O >> s.marshrut >> s.lenght;
+
+		arr[i] = s;
+	}
+
+	for (size_t n = 0; n < len; n++)
+	{
+		cout << arr[n].number << " "
+			<< arr[n].F << " "
+			<< arr[n].O << " "
+			<< arr[n].I << " "
+			<< arr[n].marshrut << " "
+			<< arr[n].lenght << endl;
+	}
+	cout << "----------------------------------------------" << endl;
+	for (size_t n = 0; n < len; n++)
+	{
+		if (arr[n].F == "Petrov")
+		{
+			cout << arr[n].F << " "
+				<< arr[n].I << " "
+				<< arr[n].O << " ";
+			cout << " маршрут " << arr[n].marshrut << endl;
+		}
+	}
+	cout << "----------------------------------------------" << endl;
+	int c = 9;
+	bus* buff = new bus[256];
+	for (size_t n = 0; n < c - 1; n++)
+	{
+		int D = 0;
+		for (int k = n + 1; k < c; k++)
+		{
+			for (int D = 0; D < size(arr[n].F); D++)
+			{
+				if (arr[n].F[D] > arr[n+1].F[D])
+				{
+					buff[n] = arr[n];
+					arr[n] = arr[k];
+					arr[k] = buff[n];
+					break;
+				}
+				else {
+					if (arr[n].F[D] < arr[k].F[D]) {
+						break;
+					}
+				}
+			}
+		}
+	}
+	for (size_t n = 0; n < len; n++)
+	{
+		if (arr[n].lenght > 60)
+		{
+			cout << arr[n].number << " "
+				<< arr[n].F << " "
+				<< arr[n].marshrut << " "
+				<< arr[n].lenght << endl;
+		}
+	}
+	file.close();
+
+}
+
