@@ -1,0 +1,141 @@
+#include <iostream>
+#include <cmath>
+#include <clocale>
+using namespace std;
+class Complex
+{
+private:
+    double X;
+    double Y;
+public:
+    Complex(double r = 0, double i = 0) { X = r, Y = i; }
+
+    Complex operator+(const Complex&);
+    Complex operator-(const Complex&);
+    Complex operator*(const Complex&);
+    Complex operator==(const Complex&);
+    Complex operator!=(const Complex&);
+    float fabs(const Complex&);
+    float Scal(const Complex&);
+    bool operator>(const Complex&);
+    bool operator<(const Complex&);
+
+    friend ostream& operator<<(ostream&, const Complex&);
+
+    friend istream& operator>>(istream&, Complex&);
+};
+
+Complex Complex::operator+(const Complex& fp1)
+{
+    Complex t(*this);
+    t.X += fp1.X;
+    t.Y += fp1.Y;
+    return t;
+}
+
+Complex Complex::operator-(const Complex& fp1)
+{
+    Complex t(*this);
+    t.X -= fp1.X;
+    t.Y -= fp1.Y;
+    return t;
+}
+
+Complex Complex::operator*(const Complex& fp1)
+{
+    Complex t(*this);
+    t.X = t.X * fp1.X;
+    t.Y = t.Y * fp1.X;
+    return t;
+}
+
+float Complex::fabs(const Complex& fp1)
+{
+    double i;
+    i = sqrt(X * X + Y * Y);
+    return i;
+}
+
+float Complex::Scal(const Complex& fp1)
+{
+    double K = 0;
+    Complex t(*this);
+    t.X = t.X * fp1.X;
+    t.Y = t.Y * fp1.Y;
+    K = t.X + t.Y;
+    return K;
+}
+
+bool Complex::operator>(const Complex& fp1)
+{
+    Complex t(*this);
+    if (fabs(fp1) > fabs(t))
+        return 1;
+    else return 0;
+}
+
+bool Complex::operator<(const Complex& fp1)
+{
+    Complex t(*this);
+    if (fabs(fp1) < fabs(t))
+        return 1;
+    else return 0;
+}
+Complex Complex::operator==(const Complex& fp1)
+{
+    Complex t(*this);
+    if (fabs(fp1) == fabs(t))
+        return 1;
+    else return 0;
+    return 0;
+}
+Complex Complex::operator!=(const Complex& fp1)
+{
+    Complex t(*this);
+    if (fabs(fp1) != fabs(t))
+        return 1;
+    else return 0;
+}
+ostream& operator<< (ostream& fo, const Complex& fp)
+{
+    fo << "(" <<fp.X << ";" <<fp.Y << ")" <<"\n";
+    return fo;
+}
+
+istream& operator>>(istream& fi, Complex& fp)
+{
+    fi >> fp.X;
+    fi >> fp.Y;
+    return fi;
+}
+
+int main()
+{
+    Complex c1, c2,K;
+    setlocale(LC_ALL, "Rus");
+    cout << "1 число, введите действительную и мнимую части через пробел: ";
+    cin >> c1;
+    cout << "2 число, введите действительную и мнимую части через пробел: ";
+    cin >> c2;
+    cout << "Введите число для умножения"<<"\n"<<"После ввода введите любое число через пробел";
+    cin >> K;
+    cout << "c1 = " << c1;
+    cout << "c2 = " << c2 << '\n';
+    cout << "c1 + c2 = " << c1 + c2;
+    cout << "c1 - c2 = " << c1 - c2;
+    cout << "c1 * K = " << c1 * K;
+    cout << "c2 * K = " << c2 * K;
+    cout << "Scal C1 and c2 " << c1.Scal(c2) << "\n";
+    cout << "fabs C1 and c2 " << c1.fabs(c1)<< " "<< c2.fabs(c2)<<"\n";
+    cout << "Угол между векторами = " <<"Cos(" <<(c1.Scal(c2) / (c1.fabs(c1) * c2.fabs(c2)))<<")"<< "\n";
+    if (c1.fabs(c1) != c2.fabs(c2))
+        cout << c1.fabs(c1) << " != " << c2.fabs(c2) << endl;
+    if (c1.fabs(c1) > c2.fabs(c2))
+        cout << c1.fabs(c1) << " > " << c2.fabs(c2) << endl;
+    if (c1.fabs(c1) < c2.fabs(c2))
+        cout << c1.fabs(c1) << " < " << c2.fabs(c2) << endl;
+    if (c1.fabs(c1) == c2.fabs(c2))
+        cout << c1.fabs(c1) << " == " << c2.fabs(c2) << endl;
+    system("pause");
+    return 0;
+}
