@@ -1,0 +1,205 @@
+#pragma once
+using namespace std;
+template <typename T>
+class MATRIX
+{
+private:
+    T** M; 
+    int X; 
+    int Y; 
+
+public:
+    MATRIX()
+    {
+        Y = X = 0;
+        M = nullptr;
+    }
+
+    MATRIX(int _m, int _n)
+    {
+        X = _m;
+        Y = _n;
+
+        
+        M = (T**) new T * [X]; 
+
+        
+        for (int i = 0; i < X; i++)
+            M[i] = (T*)new T[Y];
+
+      
+        std::random_device rd;
+        std::mt19937 mersenne(rd());
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
+                M[i][j] = (mersenne() / 100000000);
+    }
+
+   
+    MATRIX(const MATRIX& _M)
+    {
+     
+      
+        X = _M.X;
+        Y = _M.Y;
+
+        
+        M = (T**) new T * [X];
+
+        for (int i = 0; i < X; i++)
+            M[i] = (T*) new T[Y];
+
+        
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
+                M[i][j] = _M.M[i][j];
+    }
+
+   
+    T GetMij(int i, int j)
+    {
+        if ((X > 0) && (Y > 0))
+            return M[i][j];
+        else
+            return 0;
+    }
+
+    void SetMij(int i, int j, T value)
+    {
+        if ((i < 0) || (i >= X))
+            return;
+        if ((j < 0) || (j >= Y))
+            return;
+        M[i][j] = value;
+    }
+
+
+   
+    void Print(const char* ObjName)
+    {
+        cout << "Object: " << ObjName << endl;
+        for (int i = 0; i < X; i++)
+        {
+            for (int j = 0; j < Y; j++)
+                cout << M[i][j] << "\t";
+            cout << endl;
+        }
+        cout << "---------------------" << endl << endl;
+    }
+
+    MATRIX Sum(MATRIX<int> M, MATRIX<int> M2, MATRIX<int> M3)
+    {
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
+            {
+                M3.SetMij(i, j, (M.GetMij(i, j) + M2.GetMij(i, j)));
+            }
+        M3.Print("Sum");
+        return M3;
+    }
+
+    MATRIX Vichet(MATRIX<int> M, MATRIX<int> M2, MATRIX<int> M3)
+    {
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
+            {
+                M3.SetMij(i, j, (M.GetMij(i, j) - M2.GetMij(i, j)));
+            }
+        M3.Print("Vichet");
+        return M3;
+    }
+
+    MATRIX Vector_Umnoz(MATRIX<int> M, MATRIX<int> Vector, MATRIX<int> Vector_Itog)
+    {
+
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
+            {
+                for (int k = 0; k < X; k++)
+                {
+                    Vector_Itog.SetMij(0, j, (Vector_Itog.GetMij(0, j) + (M.GetMij(i, k) * Vector.GetMij(k, j))));
+                }
+            }
+        Vector_Itog.Print("Vector_Itog");
+        return Vector_Itog;
+
+    } 
+
+    MATRIX Umnoz(MATRIX<int> M, MATRIX<int> M2, MATRIX<int> M3)
+    {
+        if (X != Y)
+            cout << "Такие матрицы нельзя перемножить, так как количество столбцов матрицы M не равно количеству строк матрицы M2\n";
+        else
+            for (int i = 0; i < X; i++)
+                for (int j = 0; j < Y; j++)
+                {
+                    for (int k = 0; k < X; k++)
+                    {
+                        M3.SetMij(i, j, (M3.GetMij(i, j) + (M.GetMij(i, k) * M2.GetMij(k, j))));
+                    }
+                }
+        M3.Print("Umnoz");
+        return M3;
+    }
+
+
+    MATRIX Dellen(MATRIX<int> M, MATRIX<int> M2, MATRIX<int> M3, MATRIX<int> Transp)
+    {
+
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
+            {
+                for (int k = 0; k < X; k++)
+                {
+                    M3.SetMij(i, j, (M3.GetMij(i, j) + (M.GetMij(i, k) * (Transp.GetMij(k, j)))));
+                }
+            }
+        M3.Print("Dellen");
+        return M3;
+    }
+
+  
+    MATRIX operator=(const MATRIX& _M)
+    {
+        if (Y > 0)
+        {
+         
+            for (int i = 0; i < X; i++)
+                delete[] M[i];
+        }
+
+        if (X > 0)
+        {
+            delete[] M;
+        }
+
+    
+        X = _M.X;
+        Y = _M.Y;
+
+   
+        M = (T**) new T * [X];
+        for (int i = 0; i < X; i++)
+            M[i] = (T*) new T[Y];
+
+        
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
+                M[i][j] = _M.M[i][j];
+        return *this;
+    }
+
+    
+    ~MATRIX()
+    {
+        if (Y > 0)
+        {
+        
+            for (int i = 0; i < X; i++)
+                delete[] M[i];
+        }
+
+        if (X > 0)
+            delete[] M;
+    }
+};

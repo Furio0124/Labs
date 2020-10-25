@@ -1,0 +1,61 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <random>
+#include "Header1.h"
+
+void main()
+{
+    std::random_device rd;
+    std::mt19937 mersenne(rd());
+    setlocale(LC_ALL, "Russian");
+    int X = 0;
+    int Y = 0;
+    cout << "Введите размер матрицы по X и Y\n";
+    cin >> X;
+    cout << "\n";
+    cin >> Y;
+    MATRIX<int> M(X, Y);
+    MATRIX<int> M2(X, Y);
+    MATRIX<int> M3(X, Y);
+    MATRIX<int> Transp(X, Y);
+    MATRIX<int> Vector(1, Y);
+    MATRIX<int> Vector_Itog(1, Y);
+    int i, j,Z=0;
+    for (i = 0; i < X; i++)
+    {
+        for (j = 0; j < Y; j++)
+        {
+            M.SetMij(i, j, (mersenne() / 100000000));
+            M2.SetMij(i, j, (mersenne() / 100000000));
+            M3.SetMij(i, j, 0);
+            Transp.SetMij(i, j, 0);
+            if (i == 0)
+            {
+                std::cout << "Введите следующее числа для вектора\n";
+                cin >> Z;
+                Vector.SetMij(i, j, Z);
+            }
+        }
+    }
+    Vector_Itog = Vector;
+    M.Print("M");
+    M2.Print("M2");
+    M3.Sum(M, M2,M3);
+    M3.Vichet(M, M2, M3);
+    M3.Umnoz(M, M2, M3);
+    int t;
+    for (int i = 0; i < X; ++i)
+    {
+        for (int j = i; j < Y; ++j)
+        {
+            t = M2.GetMij(i, j);
+            Transp.SetMij(i, j, M2.GetMij(j, i));
+            Transp.SetMij(j, i, t);
+        }
+    }
+    Transp.Print("Transp");
+    M3.Dellen(M, M2, M3,Transp);
+    Vector.Print("Vec");
+    Vector.Vector_Umnoz(M, Vector, Vector_Itog);
+}
