@@ -1,0 +1,110 @@
+#include <iostream>
+#include <cmath>
+#include <clocale>
+using namespace std;
+template <class T>
+class Complex
+{
+private:
+    T X;
+    T Y;
+public:
+    Complex(int r = 0, int i = 0) { X = r, Y = i; }
+
+    Complex operator+(const Complex& fp1)
+    {
+        Complex t(*this);
+        t.X += fp1.X;
+        t.Y += fp1.Y;
+        return t;
+    }
+
+    Complex operator-(const Complex& fp1)
+    {
+        Complex t(*this);
+        t.X -= fp1.X;
+        t.Y -= fp1.Y;
+        return t;
+    }
+
+    Complex operator*(const Complex& fp1)
+    {
+        Complex t(*this);
+        t.X = t.X * fp1.X;
+        t.Y = t.Y * fp1.X;
+        return t;
+    }
+
+    float fabs(const Complex& fp1)
+    {
+        double i;
+        i = sqrt(X * X + Y * Y);
+        return i;
+    }
+
+    float Scal(const Complex& fp1)
+    {
+        double K = 0;
+        Complex t(*this);
+        t.X = t.X * fp1.X;
+        t.Y = t.Y * fp1.Y;
+        K = t.X + t.Y;
+        return K;
+    }
+
+    bool operator>(const Complex& fp1)
+    {
+        Complex t(*this);
+        if (fabs(fp1) > fabs(t))
+            return 1;
+        else return 0;
+    }
+
+    bool operator<(const Complex& fp1)
+    {
+        Complex t(*this);
+        if (fabs(fp1) < fabs(t))
+            return 1;
+        else return 0;
+    }
+    Complex operator==(const Complex& fp1)
+    {
+        Complex t(*this);
+        if (fabs(fp1) == fabs(t))
+            return 1;
+        else return 0;
+        return 0;
+    }
+    Complex operator!=(const Complex& fp1)
+    {
+        Complex t(*this);
+        if (fabs(fp1) != fabs(t))
+            return 1;
+        else return 0;
+    }
+    friend ostream& operator<< (ostream& fo, const Complex& fp)
+    {
+        fo << "(" << fp.X << ";" << fp.Y << ")" << "\n";
+        return fo;
+    }
+
+    friend istream& operator>> (istream& fi, Complex& fp)
+    {
+        fi >> fp.X;
+        fi >> fp.Y;
+        return fi;
+    }
+};
+
+int main()
+{
+    Complex<double> c1, c2, K;
+    setlocale(LC_ALL, "Rus");
+    cout << "¬ведите первую кординату через пробел вторую ";
+    cin >> c1;
+    cout << "¬ведите вторую кординату через пробел вторую ";
+    cin >> c2;
+    cout << "fabs C1 and c2 " << c1.fabs(c1) << " " << c2.fabs(c2) << "\n";
+    system("pause");
+    return 0;
+}
