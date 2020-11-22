@@ -1,0 +1,234 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <sstream>
+using namespace std;
+
+template <class T>
+class Mnoz
+{
+private:
+	vector <T> M1;
+	vector <T> M2;
+	vector <T> M3;
+	vector <T> M4;
+public:
+	Mnoz()
+	{
+		vector <T> M1(1);
+		vector <T> M2(1);
+		vector <T> M3(1);
+		vector <T> M4(1);
+	}
+
+	void Write()
+	{
+		string Line;
+		int Line_int;
+		ifstream in("Text.txt");
+		if (in.is_open())
+		{
+			while (getline(in,Line))
+			{
+				if (Line == "\0")
+				{
+					break;
+				}
+				stringstream geek(Line);
+				geek >> Line_int;
+				M1.push_back(Line_int);
+			}
+			while (getline(in, Line))
+			{
+				if (Line == "\0")
+				{
+					break;
+				}
+				stringstream geek(Line);
+					geek >> Line_int;
+				M2.push_back(Line_int);
+			}
+			while (getline(in, Line))
+			{
+				if (Line == "\0")
+				{
+					break;
+				}
+				stringstream geek(Line);
+					geek >> Line_int;
+				M3.push_back(Line_int);
+			}
+		}
+		in.close();
+	}
+
+	void Union(vector<T>& Mass1, vector<T>& Mass2)
+	{
+		M4 = Mass1;
+		for (int i = 0; i <= Mass2.size() - 1; i++)
+		{
+			check(M4, Mass2[i]);
+		}
+		for (int x : M4)
+			cout << x << endl;
+	}
+	void dell(vector <T>& Mass1)
+	{
+		int del = 0;
+		cout << "Введите элемент который будем удалять:";
+		cin >> del;
+		for (int i = 0; i <= Mass1.size() - 1; i++)
+		{
+			if (Mass1[i] == del)
+			{
+				Mass1.erase(Mass1.begin() + i);
+				break;
+			}
+		}
+	}
+	void definition()
+	{
+		if ((M1.size() > M2.size()) && (M1.size() > M3.size()) && (M1.size() > M4.size()))
+			cout << "Массив M1 имеет наибольшее кол/во элементов: " << M1.size() << endl;
+		else if ((M2.size() > M1.size()) && (M2.size() > M3.size()) && (M2.size() > M4.size()))
+			cout << "Массив M2 имеет наибольшее кол/во элементов: " << M2.size() << endl;
+		else if ((M3.size() > M2.size()) && (M3.size() > M1.size()) && (M3.size() > M4.size()))
+			cout << "Массив M3 имеет наибольшее кол/во элементов: " << M3.size() << endl;
+		else if ((M4.size() > M2.size()) && (M4.size() > M3.size()) && (M4.size() > M1.size()))
+			cout << "Массив M4 имеет наибольшее кол/во элементов: " << M4.size() << endl;
+		else cout << "Массивы имеют одинаковые кол/во элементов:"<< M1.size() << endl;
+	}
+
+	void cout_vec(vector<T> result, int Cout)
+	{
+		for (int i = 0; i <= result.size() - 1; i++)
+		{
+			cout << result[i] << endl;
+		}
+		cout << "Кол/во элементов = " << Cout << endl;
+	}
+
+	void Crossing(vector<T>& Mass1, vector<T>& Mass2)
+	{
+		int C = 0;
+		vector<T> Result1;
+		Result1.clear();
+		for (int i = 0; i <= Mass1.size() - 1 ; i++)
+		{
+			for (int N = 0; N <= Mass1.size() - 1  ; N++)
+				if (Mass1[N] == Mass2[i])
+				{
+					Result1.push_back(Mass1[N]);
+					C++;
+				}
+		}
+		if (C > 0)
+		{
+			cout << "Элементы которые пересекаются" << endl;
+			cout_vec(Result1, C);
+		}
+	}
+
+
+
+	void check(vector <T>& buff, T X)
+	{
+		int c = 0;
+		if (buff.size() != 0) {
+			for (int i = 0; i <= (buff.size() - 1); i++)
+			{
+				if (buff[i] == X)
+				{
+					cout << "Элемент уже есть" << endl;
+					c++;
+					break;
+				}
+			}
+			if (c == 0)
+			{
+				buff.push_back(X);
+			}
+		}
+		else {
+			buff.push_back(X);
+		}
+
+	}
+
+	vector<T>* pick_mass()
+	{
+		cout << "Выберите вектор" << endl;
+		int Ch_vec = 0;
+		cin >> Ch_vec;
+		switch (Ch_vec)
+		{
+		case 1:
+			return &this->M1;
+			break;
+		case 2:
+			return &this->M2;
+			break;
+		case 3:
+			return &this->M3;
+			break;
+		case 4:
+			return &this->M4;
+			break;
+		}
+	}
+
+};
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	int N;
+	int X = 0;
+	int y = 0;
+	vector <int> buff;
+	Mnoz <int>* Now = new Mnoz <int>();
+	Now->Write();
+	while (1 > 0)
+	{
+		cout << "Выберите цифру " << endl;
+		cout << "1: Добавить элемент " << endl;
+		cout << "2: Вывести вектор " << endl;
+		cout << "3: Пересечение массивов" << endl;
+		cout << "4: Объединение массивов" << endl;
+		cout << "5: Удаление элемента из массива" << endl;
+		cout << "6: Опеределение наибольшего массива " << endl;
+		cout << "7: Выход " << endl;
+		cin >> N;
+
+
+		switch (N)
+		{
+		case 1:
+			cout << "Введите элемент который добавить " << endl;
+			cin >> X;
+			Now->check(*Now->pick_mass(), X);
+			break;
+		case 2:
+			cout << "Итоговый вектор" << endl;
+			for (int x : *Now->pick_mass())
+				cout << x << endl;
+			break;
+		case 3:
+			Now->Crossing(*Now->pick_mass(), *Now->pick_mass());
+			break;
+		case 4:
+			Now->Union(*Now->pick_mass(), *Now->pick_mass());
+			break;
+		case 5 : 
+			Now->dell(*Now->pick_mass());
+			break;
+		case 6:
+			Now->definition();
+			break;
+		case 7:
+			exit(0);
+			break;
+		}
+	}
+
+}
