@@ -1,9 +1,0 @@
-10 Fedorov Alexei Vitalevich 1 180
-3 Petrov Aleksandr Grigorevich 2 90
-9 Ivanov Stanislas Alexeevich 3 140
-66 Stupov Egor Alexandrovich 4 60
-4 Nekitov Kiril Fedorovich 5 85
-55 Mukhov Nikita egorovich 6 78
-32 Petrov Petr Petrovich 7 43
-80 Rubilov Albert Dmitrievich 8 100
-777 Stepanov Ivan Yrevich 9 20
