@@ -1,0 +1,111 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+class Table
+{
+	int size;
+	char color [60];
+public:
+	Table() 
+	{
+	
+	};
+	Table(int h, char c[60])
+	{
+		size = h;
+		strcpy_s (color,c);
+	};
+	void Show();
+	void SetSize(int);
+	void SetColor(char*);
+	void GetSize(int&);
+	int CalcVolume()
+	{
+		return (size * size * size);
+	};
+};
+
+class CompTable : public Table
+{
+	int h_pod;
+	char material[60];
+public:
+	CompTable ()
+	{
+		
+	};
+	CompTable (int size,char color [60],int MH_pod, char mat[60]):Table(size,color)
+	{
+		h_pod = MH_pod;
+		strcpy_s(material, mat);
+	};
+	int CalcVolumeCT()
+	{
+			return (this->CalcVolume() + (h_pod * h_pod * h_pod));
+	};
+	void ShowMaterialAndColor(char Material[60], char Color[60])
+	{
+		cout << "Стол цвета:" << Color<<endl;
+		cout << "Материал стола " << Material<<endl;
+	}
+};
+class MiniTable :public CompTable
+{
+	int Mini_Size;
+	char Pattern[60];
+public:
+	MiniTable()
+	{
+		
+	}
+	MiniTable(int size, char color[60], int MH_pod, char mat[60], int mini, char Pat[60]) :CompTable(size,color,MH_pod,mat)
+	{
+		Mini_Size = mini;
+		strcpy_s(Pattern, Pat);
+	}
+	int CalcVolumeMini()
+	{
+		return (this->CalcVolumeCT() / Mini_Size);
+	}
+	void ShowPattern(char pattern[60])
+	{
+		cout << "Раскрас стола " << Pattern << endl;
+	}
+
+};
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int MH = 0;
+	int MH_pod = 0;
+	int Check = 0;
+	int Mini;
+	char color[60];
+	char material[60];
+	char pattern[60];
+	while (MH <=0)
+	{
+	cout << "Введите размер стола ";
+	cin >> MH;
+	}
+	while (MH_pod <= 0)
+	{
+		cout << "Введите размер подставики ";
+		cin >> MH_pod;
+	}
+	cout << "Введите цвет стола ";
+	cin >> color;
+	cout << "Введите материал стола ";
+	cin >> material;
+	cout << "Введите во сколько раз стол будет меньше изначального ";
+	cin >> Mini;
+	cout << "Введите расскраску ";
+	cin >> pattern;
+	CompTable Now { MH,color,MH_pod,material};
+	MiniTable Now1{ MH,color,MH_pod,material,Mini,pattern };
+	cout << "Объём стола: " << (Now.CalcVolumeCT()) << endl;
+	cout << "Объём МиниСтола: " << (Now1.CalcVolumeMini())<< endl;
+	Now.ShowMaterialAndColor(material, color);
+	Now1.ShowPattern(pattern);
+
+}
