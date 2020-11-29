@@ -1,0 +1,178 @@
+﻿#include <iostream>
+#include <cmath>
+using namespace std;
+class Table
+{
+	int size;
+	char color [60];
+public:
+	Table() 
+	{
+	
+	};
+	Table(int h, char c[60])
+	{
+		size = h;
+		strcpy_s (color,c);
+	};
+	void Show();
+	void SetSize(int);
+	void SetColor(char*);
+	void GetSize(int&);
+	 virtual int CalcVolume()
+	{
+		return (size * size * size);
+	};
+};
+
+class CompTable : public Table
+{
+	int h_pod;
+	char material[60];
+	int size_CT = 0;
+public:
+	CompTable ()
+	{
+		
+	};
+	CompTable (int size,char color [60],int MH_pod, char mat[60]):Table(size,color)
+	{
+		h_pod = MH_pod;
+		strcpy_s(material, mat);
+		size_CT = size;
+	};
+	int CalcVolume () override 
+	{
+			return ( (size_CT* size_CT * size_CT) + (h_pod * h_pod * h_pod));
+	};
+	void ShowMaterialAndColor(char Material[60], char Color[60])
+	{
+		cout << "Стол цвета:" << Color<<endl;
+		cout << "Материал стола " << Material<<endl;
+	}
+};
+class MiniTable :public CompTable
+{
+	int Mini_Size;
+	char Pattern[60];
+	int size_CT = 0;
+	int h_pod = 0;
+public:
+	MiniTable()
+	{
+		
+	}
+	MiniTable(int size, char color[60], int MH_pod, char mat[60], int mini, char Pat[60]) :CompTable(size,color,MH_pod,mat)
+	{
+		size_CT = size;
+		h_pod = MH_pod;
+		Mini_Size = mini;
+		strcpy_s(Pattern, Pat);
+	}
+	int CalcVolume() override
+	{
+		return ( ((size_CT * size_CT * size_CT) + (h_pod * h_pod * h_pod)) / Mini_Size);
+	}
+	void ShowPattern(char pattern[60])
+	{
+		cout << "Раскрас стола " << Pattern << endl;
+	}
+
+};
+void Summ(int X, int Z)
+{
+	cout << "Расчёт в деньгах " << Z * X << endl;
+}
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int MH = 0;
+	int MH_pod = 0;
+	int Check = 0;
+	int Mini = 0;
+	char color[60];
+	char material[60];
+	char pattern[60];
+	int op = 0;
+	int Coast = 0;
+	Table *ptr, tab_obj;
+	CompTable Comp_obj;
+	MiniTable Mini_obj;
+	cout << "Введите цену за одну единицу объёма"<<endl;
+	cin >> Coast;
+	do
+	{
+		cout << "Выбирете стол" << endl << "1 = обычный стол" << endl << "2 = Стол с подставкой" << endl << "3 = Мини - Стол" << endl << "4 = Выход"<<endl;
+		cin >> op;
+	} while (op < 1 || op >4);
+	switch (op)
+	{
+	case 1:
+	{
+		while (MH <= 0)
+		{
+			cout << "Введите размер стола ";
+			cin >> MH;
+		}
+		cout << "Введите цвет стола ";
+		cin >> color;
+		tab_obj = { MH,color };
+		ptr = &tab_obj;
+		cout << "Объём стола: " << ptr->CalcVolume() << endl;
+		Summ(ptr->CalcVolume(), Coast);
+		break;
+	}
+	case 2:
+	{
+		while (MH <= 0)
+		{
+			cout << "Введите размер стола ";
+			cin >> MH;
+		}
+		cout << "Введите цвет стола ";
+		cin >> color;
+		while (MH_pod <= 1)
+		{
+			cout << "Введите размер подставики ";
+			cin >> MH_pod;
+		}
+		cout << "Введите материал стола ";
+		cin >> material;
+		Comp_obj = { MH,color,MH_pod,material };
+		ptr = &Comp_obj;
+		cout << "Объём стола с подставкой: " << (ptr->CalcVolume()) << endl;
+		Summ(ptr->CalcVolume(), Coast);
+		break;
+	}
+	case 3:
+	{
+		while (MH <= 0)
+		{
+			cout << "Введите размер стола ";
+			cin >> MH;
+		}
+		cout << "Введите цвет стола ";
+		cin >> color;
+		while (MH_pod <= 1)
+		{
+			cout << "Введите размер подставики ";
+			cin >> MH_pod;
+		}
+		cout << "Введите материал стола ";
+		cin >> material;
+		while (Mini <= 0)
+		{
+			cout << "Введите во сколько раз стол будет меньше изначального ";
+			cin >> Mini;
+		}
+		cout << "Введите расскраску ";
+		cin >> pattern;
+		Mini_obj = { MH,color,MH_pod,material,Mini,pattern };
+		ptr = &Mini_obj;
+		cout << "Объём МиниСтола: " << (ptr->CalcVolume()) << endl;
+		Summ(ptr->CalcVolume(), Coast);
+		break;
+	}
+	case 4: exit(0); break;
+	}
+}
