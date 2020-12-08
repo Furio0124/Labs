@@ -1,0 +1,261 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+class Figure
+{
+public:
+	Figure() {};
+	virtual float Perimetr() = 0;
+	virtual void Show() = 0;
+	virtual float CalcArea() = 0;
+};
+
+class Circle : public Figure
+{
+	int radius = 0;
+public:
+	Circle()
+	{
+
+	};
+	 Circle(int size)
+	{
+		radius = size;
+	};
+	 int Radius()
+	 {
+		 return radius;
+	}
+	virtual float CalcArea()
+	{
+		return (3.14 * radius * radius);
+	};
+	virtual float Perimetr() {
+		return (2 * (3.14 * radius));
+	}
+	virtual void Show() {
+		cout << "Радиус круга = " << this->radius << endl;
+	}
+};
+class Rectangle :public Figure
+{
+
+	int Sh = 0;
+	int Dl = 0;
+public:
+	Rectangle()
+	{
+
+	}
+	Rectangle(int Shi, int Dli)
+	{
+		Sh = Shi;
+		Dl = Dli;
+	}
+	virtual float CalcArea()
+	{
+		return (Sh * Dl);
+	}
+	virtual float Perimetr()
+	{
+		return (2 * Sh + 2 * Dl);
+	}
+	virtual void Show() {
+		cout << "Ширина = " << this->Sh << endl;
+		cout << "Длина = " << this->Dl << endl;
+	}
+};
+class Cub :public Figure
+{
+
+	int a1 = 0;
+	int a2 = 0;
+	int a3 = 0;
+public:
+	Cub()
+	{
+
+	}
+	Cub(int A1, int A2, int A3)
+	{
+		a1 = A1;
+		a2 = A2;
+		a3 = A3;
+	}
+	virtual float CalcArea()
+	{
+		return (a1 * a2 * a3);
+	}
+	virtual float Perimetr()
+	{
+		return ((a1 * 4) + (a2 * 4) + (a3 * 4));
+	}
+	virtual void Show() {
+		cout << "Сторона 1 = " << this->a1 << endl;
+		cout << "Сторона 2 = " << this->a2 << endl;
+		cout << "Сторона 3 = " << this->a3 << endl;
+	}
+};
+class MnogoUg : public Figure
+{
+	int CStor = 0;
+	int LStor = 0;
+public:
+	MnogoUg()
+	{
+
+	}
+	MnogoUg(int Stor, int dlin)
+	{
+		CStor = Stor;
+		LStor = dlin;
+	}
+	virtual float Perimetr() {
+		return (0);
+	}
+	virtual float CalcArea()
+	{
+		float first = 0;
+		float second = 0;
+		int Tan = 0;
+		first = CStor * (LStor * LStor);
+		Tan = tan((360 / (2 * CStor)) * 3.1416/180);
+		second = (4 * Tan);
+		Tan = (first / second);
+		return Tan;
+	}
+	virtual void Show() {
+		cout << "Кол/во сторон = " << CStor << endl;
+		cout << "Длина стороны = " << LStor  << endl;
+	}
+};
+
+class Cylinder :public Figure
+{
+	float Smnog = 0;
+	int H = 0;
+	Circle* F1 = new Circle(0);
+public:
+	Cylinder()
+	{
+		
+	}
+	 Cylinder(int CH,Circle* F,float S)
+	{
+		H = CH;
+		this->F1 = F;
+		Smnog = S;
+	}
+
+	virtual float Perimetr() {
+		return (0);
+	}
+	virtual float CalcArea()
+	{
+		if (Smnog > 0)
+		{
+			return (Smnog * H);
+		}
+		if ((F1->Radius()) > 0)
+		{
+			return (F1->Radius() * F1->Radius() * 3.14 * H);
+		}
+		else cout << "Ошибка";
+	}
+	virtual void Show() {
+		cout << "Радиус = " << F1->Radius() << endl;
+		cout << "Высота = " << H << endl;
+	}
+};
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	Figure* ptr;
+	MnogoUg obj_MnogoUg;
+	int kek = 0;
+	int T = 0;
+	int Sh, Dl;
+	int a1, a2, a3;
+	while (1 > 0)
+	{
+		cout << "Выберите фигуру " << endl << "1: Круг " << endl << "2: Прямоугольник" << endl << "3: Куб " << endl << "4: Цилиндр "<<endl << "5: Выход"<< endl;
+		cin >> kek;
+		switch (kek) {
+		case 1:
+		{
+			cout << "Введите радиус " << endl;
+			cin >> T;
+			Circle* f = new Circle(T);
+			f->Show();
+			cout << "Площадь круга = " << f->CalcArea() << endl;
+			cout << "Периметр круга = " << f->Perimetr() << endl;
+			break;
+		}
+		case 2:
+		{
+			cout << "Введите длину " << endl;
+			cin >> Dl;
+			cout << "Введите длину " << endl;
+			cin >> Sh;
+			Rectangle* j = new Rectangle(Sh, Dl);
+			j->Show();
+			cout << "Площадь прямоугольника = " << j->CalcArea() << endl;
+			cout << "Периметр прямоугольника = " << j->Perimetr() << endl;
+			break;
+		}
+		case 3:
+		{
+			cout << "Введите сторону 1 " << endl;
+			cin >> a1;
+			cout << "Введите сторону 2 " << endl;
+			cin >> a2;
+			cout << "Введите сторону 3 " << endl;
+			cin >> a3;
+			Cub* s = new Cub(a1, a2, a3);
+			s->Show();
+			cout << "Площадь куба = " << s->CalcArea() << endl;
+			cout << "Периметр куба = " << s->Perimetr() << endl;
+			break;
+		}
+		case 4:
+		{
+			int Ch = 0;
+			int H = 0;
+			float mnogoS = 0;
+			cout << "Введите Высоту" << endl;
+			cin >> H;
+			cout << "Выберите фигуру " << endl << "1: Круг " << endl << "2: Прямоугольник" << endl;
+			cin >> Ch;
+			do
+			{
+				if (Ch == 1)
+				{
+					cout << "Введите радиус " << endl;
+					cin >> T;
+					Circle* f = new Circle(T);
+					Cylinder* C = new Cylinder(H, f,mnogoS);
+					cout << "Площадь цилиндра " << C->CalcArea()<< endl;
+				}
+
+				if (Ch == 2)
+				{
+					Circle* f = new Circle(0);
+					cout << "Введите кол/во сторон" << endl;
+					cin >> Dl;
+					cout << "Введите длину стороны" << endl;
+					cin >> Sh;
+					obj_MnogoUg = { Dl, Sh };
+					ptr = &obj_MnogoUg;
+					ptr->Show();
+					Cylinder* C = new Cylinder(H, f, ptr->CalcArea());
+					cout << " Объём цилиндра = " << C->CalcArea() << endl;
+				}
+			} while ((Ch != 1) && (Ch != 2));
+		}
+		case 5: exit(0);
+		{
+
+		}
+		}
+	}
+}
