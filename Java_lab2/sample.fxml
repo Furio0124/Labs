@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+  <children>
+      <AnchorPane prefHeight="499.0" prefWidth="497.0">
+         <children>
+            <Canvas fx:id="canv" height="452.0" layoutX="189.0" layoutY="51.0" width="412.0" />
+            <Button fx:id="circle" layoutX="-2.0" layoutY="235.0" mnemonicParsing="false" onAction="#paintCircle" prefHeight="113.0" prefWidth="158.0" text="Circle" />
+            <Button fx:id="rect" layoutX="-2.0" layoutY="491.0" mnemonicParsing="false" onAction="#paintRect" prefHeight="113.0" prefWidth="158.0" text="Rectangle" />
+            <Button fx:id="rhombus" layoutX="-2.0" layoutY="14.0" mnemonicParsing="false" onAction="#paintRhombus" prefHeight="113.0" prefWidth="158.0" text="Rhombus" />
+         </children>
+      </AnchorPane>
+  </children>
+</VBox>
