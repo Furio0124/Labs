@@ -1,0 +1,115 @@
+package sample;
+
+import java.net.*;
+import java.io.*;
+import  java.nio.ByteBuffer;
+
+class Main
+{
+    public static void main(String args[])
+    {
+        try {
+            ServerSocket ss1 = new ServerSocket(1111);
+            System.out.println("Waiting connection...");
+            ServerSocket ss2 = new ServerSocket(2222);
+            System.out.println("Waiting Connection...");
+            boolean ServerOpen = true;
+
+            while (ServerOpen) {
+                Socket s1 = ss1.accept();
+                Socket s2 = ss2.accept();
+                System.out.println("Local port: " + s1.getLocalPort());
+                System.out.println("Remote port: " + s1.getPort());
+                System.out.println("Local port: " + s2.getLocalPort());
+                System.out.println("Remote port: " + s2.getPort());
+
+                InputStream in1 = s1.getInputStream();
+                OutputStream out1 = s1.getOutputStream();
+                InputStream in2 = s2.getInputStream();
+                OutputStream out2 = s2.getOutputStream();
+                System.out.println("Жеребьевка...");
+                int g1 = 0;
+                int g2 = 0;
+                for(int i = 0; i<1;){
+                    int z1 = 0 + (int) (Math.random()*10);
+                    int z2 = 10 + (int) (Math.random()*10);
+                    System.out.println(z1 +" " + z2);
+                        if (z1 == z2){
+
+                        } else if (z1 > z2){
+                            g1=1;
+                            g2=2;
+                            i++;
+                        } else if (z1 < z2){
+                            g1=2;
+                            g2=1;
+                            i++;
+                        }
+                }
+                out1.write(g1);
+                out2.write(g2);
+                int kon = 0;
+                for(int j = 37;j>=0;){
+                    int hod=0;
+                    out1.write(kon);
+                    out2.write(kon);
+                    int h = 0;
+                    if(g1<g2){
+                        hod+=1;
+                        out1.write(j);
+                        out1.write(hod);
+                        h=in1.read();
+                        j-=h;
+                        System.out.println("Получили " + h + " Осталось спичек " + j);
+                        out1.write(j);
+                        out2.write(j);
+                        hod-=1;
+                        out2.write(hod);
+                        h=in2.read();
+                        j-=h;
+                        out2.write(j);
+                        System.out.println("Получили " + h + " Осталось спичек " + j);
+                    }else if (g1>g2){
+                        hod=0;
+                        out2.write(j);
+                        out2.write(hod);
+                        h=in2.read();
+                        j-=h;
+                        System.out.println("Получили " + h + " Осталось спичек " + j);
+                        out2.write(j);
+                        out1.write(j);
+                        hod+=1;
+                        out1.write(hod);
+                        h=in1.read();
+                        j-=h;
+                        out1.write(j);
+                        System.out.println("Получили " + h + " Осталось спичек " + j);
+                    }
+                }
+                kon=1;
+                out1.write(kon);
+                out2.write(kon);
+
+
+                /*byte[] buf = ByteBuffer.allocate(4).putInt(c1).array();
+                out.write(buf);*/
+
+                in1.close();
+                out1.close();
+                s1.close();
+                in2.close();
+                out2.close();
+                s2.close();
+
+
+                System.out.println("Ending...");
+            }
+            ss1.close();
+            ss2.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error: " + e);
+        }
+    }
+}

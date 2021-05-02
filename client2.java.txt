@@ -1,0 +1,76 @@
+package sample;
+
+import java.net.*;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.util.Scanner;
+
+class Main
+{
+    public static void main(String args[])
+    {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            int stop = 1;
+            while (stop == 1) {
+                Socket s2 = new Socket("127.0.0.1", 2222);
+                System.out.println("Local port: " + s2.getLocalPort());
+                System.out.println("Remote port: " + s2.getPort());
+
+                InputStream in2 = s2.getInputStream();
+                OutputStream out2 = s2.getOutputStream();
+
+                System.out.println("Добро пожаловать!");
+                System.out.println("Начнем игру. Жеребьевка");
+
+                int g2 = in2.read();
+                System.out.println("По итогам жеребьевки вы ходите " + g2 );
+                int j;
+                int kon=0;
+                while(kon==0) {
+                    kon = in2.read();
+                    j = in2.read();
+                    if (j <= 0) {
+                        kon += 1;
+                        System.out.println("Вы проиграли.\nКонец игры.");
+                        stop = 0;
+                    } else{
+                        System.out.println("На кону осталось " + j + " спичек");
+                    int hod = in2.read();
+                    if (hod == 0) {
+                        System.out.println("Ваш ход");
+                        /*byte[] buf = new byte[2000];
+                        String str2 = new String(buf);
+                        System.out.println(str2);*/
+                        int vvod2 = 6;
+                        while (vvod2 > 5 || vvod2 < 1 || (j - vvod2 < 0)) {
+                            System.out.println("Введите сколько вытащить спичек ( от 1 до 5) ");
+                            vvod2 = scanner.nextInt();
+                            if (vvod2 <= 5 && vvod2 >= 1 && (j - vvod2 >= 0)) {
+                                out2.write(vvod2);
+                                System.out.println("Ожидание соперника...");
+                            } else {
+                                System.out.println("Вы ввели неверное число или вышли за пределы ");
+                            }
+                        }
+                    }
+                    j = in2.read();
+                    if (j <= 0) {
+                        kon += 1;
+                        System.out.println("Вы выйграли.\nКонец игры.");
+                        stop = 0;
+                    } else {
+                        System.out.println("На кону осталось " + j + " спичек");
+                    }
+
+                }
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+}
